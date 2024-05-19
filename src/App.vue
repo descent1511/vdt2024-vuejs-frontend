@@ -3,7 +3,7 @@
     <AppNavbar :isSidebarOpen="sidebarOpen" @toggle-sidebar="toggleSidebar" />
     <AppSidebar :isOpen="sidebarOpen" @close-nav="closeSidebar" />
     <div :class="['main-content', { 'main-expanded': sidebarOpen }]" id="main">
-      <!-- Nội dung chính ở đây -->
+      <StudentList />
     </div>
   </div>
 </template>
@@ -11,12 +11,14 @@
 <script>
 import AppNavbar from './components/AppNavbar.vue'
 import AppSidebar from './components/AppSidebar.vue'
+import StudentList from './views/HomePage.vue'
 
 export default {
   name: 'App',
   components: {
     AppNavbar,
     AppSidebar,
+    StudentList
   },
   data() {
     return {
