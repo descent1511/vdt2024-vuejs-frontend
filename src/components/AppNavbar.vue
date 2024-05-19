@@ -13,6 +13,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Profile</a>
           </li>
+          <li class="nav-item">
+            <ThemeToggle />
+          </li>
         </ul>
       </div>
     </div>
@@ -20,8 +23,12 @@
 </template>
 
 <script>
+import ThemeToggle from './ThemeToggle.vue'
 export default {
   name: 'AppNavbar',
+  components: {
+    ThemeToggle
+  },
   props: {
     isSidebarOpen: {
       type: Boolean,
