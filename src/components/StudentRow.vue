@@ -1,9 +1,13 @@
 <template>
   <div class="table-row">
-    <div class="checkbox-container"><input type="checkbox"></div>
+    <div class="checkbox-container">
+      <input type="checkbox" :checked="checked" @change="$emit('toggle', student.id)">
+    </div>
     <div class="name">
-      <!-- <img :src="student.imgSrc" alt="Avatar"> -->
-      <span>{{ student.name }}</span>
+      <img :src="student.imgSrc" alt="Avatar" class="avatar">
+      <router-link :to="{ name: 'profile', params: { id: student.id } }" class="profile-link">
+        <strong>{{ student.name }}</strong>
+      </router-link>
     </div>
     <div class="gender">{{ student.gender }}</div>
     <div class="university">{{ student.university }}</div>
@@ -13,24 +17,20 @@
 
 <script>
 export default {
-  props: ['student'],
-  computed: {
-  }
+  props: ['student', 'checked']
 }
 </script>
 
 <style scoped>
 .table-row {
   display: grid;
-  grid-template-columns: 0.2fr 1.5fr 1fr 1.5fr 1.5fr;
+  grid-template-columns: 0.5fr 2fr 1fr 1.5fr 1.5fr;
   align-items: center;
   padding: 10px 20px;
   background-color: #ffffff;
-  margin-bottom: 10px;
-  /* border-radius: 8px; */
+  margin-bottom: 1px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: background-color 0.3s, box-shadow 0.3s;
-  overflow: hidden;
 }
 
 .table-row:hover {
@@ -38,23 +38,31 @@ export default {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.table-row div {
-  padding: 5px 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.name span {
-  font-weight: bold;
-}
-
-.gender, .university, .region {
-  color: #6c757d;
-}
-
 input[type="checkbox"] {
   margin-right: 10px;
+  width: 20px; 
+  height: 20px;
+}
+
+input[type="checkbox"]:checked {
+  accent-color: #6f42c1;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.profile-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-link:hover {
+  text-decoration: underline;
 }
 
 .dark-mode .table-row {

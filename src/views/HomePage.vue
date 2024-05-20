@@ -1,52 +1,84 @@
 <template>
   <div class="app-container">
-    <aside class="sidebar" :class="{ 'open': isSidebarOpen }">
-      <!-- Nội dung của sidebar -->
-    </aside>
+    <aside class="sidebar" :class="{ open: isSidebarOpen }"></aside>
     <main class="main-content">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <div class="input-group" style="max-width: 300px;">
+          <div class="input-group" style="max-width: 300px">
             <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-            <input type="text" class="form-control" placeholder="Search here...">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search here..."
+              v-model="searchQuery"
+            />
           </div>
-          <div class="btn-group">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Newest
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Oldest</a></li>
-              <li><a class="dropdown-item" href="#">Newest</a></li>
-            </ul>
-          </div>
-          <button class="btn btn-new-student">+ New Student</button>
+          <button class="btn btn-delete-student" @click="deleteSelectedStudents">Delete</button>
+          <button class="btn btn-new-student" @click="openModal">+ New Student</button>
         </div>
         <div class="table-container">
-          <StudentTable />
+          <StudentTable @update:selectedStudents="updateSelectedStudents" :search-query="searchQuery"/>
         </div>
       </div>
     </main>
+
+    <NewStudentModal :show="isModalOpen" @update:show="isModalOpen = false" />
   </div>
 </template>
 
 <script>
-import StudentTable from '../components/StudentTable.vue'
+import StudentTable from "../components/StudentTable.vue";
+import NewStudentModal from "../components/NewStudentModal.vue";
+import { deleteUser } from "../api/userService";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 export default {
   components: {
-    StudentTable
+    StudentTable,
+    NewStudentModal,
   },
   data() {
     return {
-      isSidebarOpen: false
+      isSidebarOpen: false,
+      isModalOpen: false,
+      searchQuery: "",
+      selectedStudents: [],
     };
   },
   methods: {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
-    }
-  }
-}
+    },
+    openModal() {
+      this.isModalOpen = true;
+    },
+    updateSelectedStudents(selectedStudents) {
+      this.selectedStudents = selectedStudents;
+    },
+    async deleteSelectedStudents() {
+      if (this.selectedStudents.length === 0) {
+        alert("Please select at least one student to delete.");
+        return;
+      }
+
+      try {
+        for (const userId of this.selectedStudents) {
+          try {
+            const response = await deleteUser(userId);
+            console.log(`User ${userId} deleted successfully:`, response);
+          } catch (error) {
+            console.error(`Failed to delete user ${userId}:`, error);
+          }
+        }
+        this.selectedStudents = [];
+        window.location.reload();
+      } catch (error) {
+        console.error("Error deleting users:", error);
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -63,7 +95,7 @@ export default {
 }
 
 .sidebar.open {
-  width: 250px; 
+  width: 250px;
 }
 
 .main-content {
@@ -72,7 +104,7 @@ export default {
 }
 
 .sidebar.open + .main-content {
-  margin-left: 250px; 
+  margin-left: 250px;
 }
 
 .input-group .input-group-text {
@@ -89,6 +121,18 @@ export default {
   border: none;
   border-radius: 30px;
   padding: 10px 20px;
+}
+
+.btn-delete-student {
+  background-color: #6f42c1;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+}
+
+.btn-delete-student:hover {
+  background-color: #5a3797;
 }
 
 .btn-new-student:hover {
