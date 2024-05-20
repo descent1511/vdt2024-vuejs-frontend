@@ -2,28 +2,27 @@
   <div id="app">
     <AppNavbar :isSidebarOpen="sidebarOpen" @toggle-sidebar="toggleSidebar" />
     <AppSidebar :isOpen="sidebarOpen" @close-nav="closeSidebar" />
-    <div :class="['main-content', { 'main-expanded': sidebarOpen }]" id="main">
-      <StudentList />
-    </div>
+    
+   
+    <router-view></router-view>
+    
   </div>
 </template>
 
 <script>
-import AppNavbar from './components/AppNavbar.vue'
-import AppSidebar from './components/AppSidebar.vue'
-import StudentList from './views/HomePage.vue'
+import AppNavbar from './components/AppNavbar.vue';
+import AppSidebar from './components/AppSidebar.vue';
 
 export default {
   name: 'App',
   components: {
     AppNavbar,
     AppSidebar,
-    StudentList
   },
   data() {
     return {
       sidebarOpen: false
-    }
+    };
   },
   methods: {
     toggleSidebar() {
@@ -33,7 +32,7 @@ export default {
       this.sidebarOpen = false;
     }
   }
-}
+};
 </script>
 
 <style>
@@ -46,25 +45,31 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f3f4ff;
   margin: 0;
   padding: 0;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
   transition: background-color 0.3s, color 0.3s;
 }
 
-#main {
+.main-content {
+  background-color: #f3f4ff;
   transition: margin-left 0.3s;
   padding: 16px;
   margin-left: 0;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px); 
+  overflow-y: auto;
+  margin-top: 60px; 
 }
 
 .main-expanded {
