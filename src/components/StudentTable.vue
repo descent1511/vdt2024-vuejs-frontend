@@ -2,7 +2,11 @@
   <div class="table-container">
     <div class="table-header">
       <div>
-        <input type="checkbox" @change="toggleSelectAll" :checked="isAllSelected">
+        <input
+          type="checkbox"
+          @change="toggleSelectAll"
+          :checked="isAllSelected"
+        />
       </div>
       <div>Name</div>
       <div>Gender</div>
@@ -20,34 +24,39 @@
 </template>
 
 <script>
-import StudentRow from './StudentRow.vue';
-import { getAllUser, searchUserByName } from '../api/userService';
+import StudentRow from "./StudentRow.vue";
+import { getAllUser, searchUserByName } from "../api/userService";
 
 export default {
   components: {
-    StudentRow
+    StudentRow,
   },
   props: {
     searchQuery: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
   data() {
     return {
       students: [],
-      selectedStudents: []
+      selectedStudents: [],
     };
   },
   computed: {
     isAllSelected() {
-      return this.students.length > 0 && this.students.every(student => this.selectedStudents.includes(student.id));
-    }
+      return (
+        this.students.length > 0 &&
+        this.students.every((student) =>
+          this.selectedStudents.includes(student.id)
+        )
+      );
+    },
   },
   methods: {
     toggleSelectAll(event) {
       if (event.target.checked) {
-        this.selectedStudents = this.students.map(student => student.id);
+        this.selectedStudents = this.students.map((student) => student.id);
       } else {
         this.selectedStudents = [];
       }
@@ -63,60 +72,64 @@ export default {
       this.emitSelectedStudents();
     },
     emitSelectedStudents() {
-      this.$emit('update:selectedStudents', this.selectedStudents);
+      this.$emit("update:selectedStudents", this.selectedStudents);
     },
     async fetchUsers() {
       try {
         const response = await getAllUser();
-        if (response.data.status === 'success') {
-          this.students = response.data.data.map(user => ({
+        if (response.data.status === "success") {
+          this.students = response.data.data.map((user) => ({
             id: user.id,
             name: user.fullName,
             gender: user.gender,
             university: user.university,
             region: user.region,
-            imgSrc: user.imgUrl
+            imgSrc: user.imgUrl,
           }));
         } else {
-          console.error('Failed to fetch users:', response.data.message);
+          console.error("Failed to fetch users:", response.data.message);
         }
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       }
     },
     async searchUsers() {
       try {
-        if (this.searchQuery.trim() === '') {
+        if (this.searchQuery.trim() === "") {
           await this.fetchUsers();
         } else {
           const response = await searchUserByName(this.searchQuery);
-          if (response.data.status === 'success') {
-            this.students = response.data.data.map(user => ({
+          if (response.data.status === "success") {
+            this.students = response.data.data.map((user) => ({
               id: user.id,
               name: user.fullName,
               gender: user.gender,
               university: user.university,
               region: user.region,
-              imgSrc: user.imgUrl
+              imgSrc: user.imgUrl,
             }));
           } else {
-            console.error('Failed to search users:', response.data.message);
+            
+            this.students = [];
+            
+            console.error("Failed to search users:", response.data.message);
+            
           }
         }
       } catch (error) {
-        console.error('Error searching users:', error);
+        console.error("Error searching users:", error);
       }
-    }
+    },
   },
   async created() {
     await this.fetchUsers();
   },
   watch: {
     searchQuery: {
-      handler: 'searchUsers',
-      immediate: true
-    }
-  }
+      handler: "searchUsers",
+      immediate: true,
+    },
+  },
 };
 </script>
 <style scoped>
@@ -172,16 +185,12 @@ input[type="checkbox"]:checked {
 }
 
 .dark-mode .table-header {
-  background-color: #333333;
-  color: #6c757d;
-}
-
-.dark-mode .table-row {
-  background-color: #333333;
+  background-color: #495057;
   color: #ffffff;
 }
 
-.dark-mode .table-row:hover {
-  background-color: #444444;
+.dark-mode .table-row {
+  background-color: #495057;
+  color: #ffffff;
 }
 </style>

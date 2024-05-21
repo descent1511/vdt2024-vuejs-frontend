@@ -139,13 +139,7 @@ export default {
   background-color: #5a3797;
 }
 
-.dark-mode .btn-new-student {
-  background-color: #4b299e;
-}
 
-.dark-mode .btn-new-student:hover {
-  background-color: #3e237d;
-}
 
 .table-container {
   width: 100%;

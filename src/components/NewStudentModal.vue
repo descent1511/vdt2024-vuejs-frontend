@@ -184,4 +184,12 @@ export default {
 .modal-content {
   padding: 20px;
 }
+
+.btn-primary {
+  background-color: #6f42c1;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+}
 </style>

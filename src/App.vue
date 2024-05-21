@@ -44,7 +44,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -69,15 +68,21 @@ body {
   flex-direction: column;
   height: calc(100vh - 60px); 
   overflow-y: auto;
-  margin-top: 60px; 
+  margin-top: 50px; 
 }
+.dark-mode .main-content{
+  background-color: #343A40;
+  color: #e0e0e0;
+}
+
 
 .main-expanded {
   margin-left: 250px;
 }
 
-.dark-mode {
+/* .dark-mode {
   background-color: #121212;
   color: #e0e0e0;
-}
+} */
+
 </style>

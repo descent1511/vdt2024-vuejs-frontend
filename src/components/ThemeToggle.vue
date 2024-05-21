@@ -20,7 +20,20 @@ export default {
     toggleTheme() {
       this.isDarkMode = !this.isDarkMode
       document.body.classList.toggle('dark-mode')
+      localStorage.setItem('isDarkMode', this.isDarkMode)
+    },
+    loadTheme() {
+      const savedTheme = localStorage.getItem('isDarkMode')
+      if (savedTheme) {
+        this.isDarkMode = JSON.parse(savedTheme)
+        if (this.isDarkMode) {
+          document.body.classList.add('dark-mode')
+        }
+      }
     }
+  },
+  mounted() {
+    this.loadTheme()
   }
 }
 </script>
