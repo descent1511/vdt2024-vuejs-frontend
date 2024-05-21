@@ -26,3 +26,14 @@ export const searchUserByName = (searchQuery) => {
     params: { search: searchQuery }
   });
 };
+
+export const uploadAvatar = (userId, file) => {
+  const formData = new FormData();
+  formData.append('avatar', file);
+
+  return axios.post(`/v1/users/${userId}/avatar`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
