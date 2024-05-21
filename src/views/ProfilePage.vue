@@ -3,9 +3,13 @@
     <div class="profile-header">
       <img :src="student.imgUrl" alt="Avatar" class="avatar">
       <h2>{{ student.name }}</h2>
-      <button class="btn btn-edit-profile" @click="editProfile">Edit Profile</button>
+      <button class="btn btn-edit-profile" @click="showEditModal = true">Edit Profile</button>
     </div>
     <div class="profile-details">
+      <div class="detail-row">
+        <strong>Name:</strong>
+        <span>{{ student.fullName }}</span>
+      </div>
       <div class="detail-row">
         <strong>Gender:</strong>
         <span>{{ student.gender }}</span>
@@ -26,22 +30,29 @@
         <strong>Birthday:</strong>
         <span>{{ formattedDateOfBirth }}</span>
       </div>
-      <div class="detail-row">
-        <strong>Major:</strong>
-        <span>{{ student.major }}</span>
-      </div>
     </div>
+    <edit-profile-modal
+      :show="showEditModal"
+      :studentData="student"
+      @update:show="showEditModal = false"
+      @update-profile="updateProfile"
+    ></edit-profile-modal>
   </div>
 </template>
 
 <script>
 import { getUserById } from '../api/userService';
+import EditProfileModal from '../components/EditProfileModal.vue';
 
 export default {
+  components: {
+    EditProfileModal
+  },
   props: ['id'],
   data() {
     return {
       student: null,
+      showEditModal: false,
       error: null
     };
   },
@@ -60,13 +71,14 @@ export default {
         console.error(error);
       }
     },
-    editProfile() {
-      console.log('Edit profile clicked');
+    updateProfile(updatedStudent) {
+      this.student = { ...this.student, ...updatedStudent };
     }
   },
   computed: {
     formattedDateOfBirth() {
       if (this.student && this.student.dateOfBirth) {
+        
         const date = new Date(this.student.dateOfBirth);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return date.toLocaleDateString(undefined, options);
@@ -83,7 +95,7 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 30px;
-  margin-top: 60px; 
+  margin-top: 50px; 
   background-color: #f3f4ff;
   min-height: 100%; 
 }
@@ -147,7 +159,9 @@ export default {
 
 .dark-mode .profile-container {
   background-color: #343a40;
-  color: #f8f9fa;
+}
+.dark-mode .detail-row {
+  color : white;
 }
 
 .dark-mode .profile-details {
@@ -158,11 +172,4 @@ export default {
   border-bottom: 1px solid #6c757d;
 }
 
-.dark-mode .btn-edit-profile {
-  background-color: #4b299e;
-}
-
-.dark-mode .btn-edit-profile:hover {
-  background-color: #3e237d;
-}
 </style>
