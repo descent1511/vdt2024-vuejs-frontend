@@ -86,7 +86,7 @@ export default {
       }
       try {
         await uploadAvatar(this.userId, this.selectedFile);
-        alert('Avatar uploaded successfully');
+       
         const modal = bootstrap.Modal.getInstance(this.$refs.modal);
         if (modal) {
           modal.hide();
