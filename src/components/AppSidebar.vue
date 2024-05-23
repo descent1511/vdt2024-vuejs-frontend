@@ -1,9 +1,9 @@
 <template>
   <div :class="['sidebar', { 'sidebar-open': isOpen }]">
-    <a href="javascript:void(0)" @click="closeNav">Trang Chủ</a>
-    <a href="javascript:void(0)" @click="closeNav">Danh sách học sinh</a>
-    <a href="javascript:void(0)" @click="closeNav">Thêm học sinh</a>
-    <a href="javascript:void(0)" @click="closeNav">Liên hệ</a>
+    <a href="/" @click="closeNav">Trang Chủ</a>
+    <a href="/" @click="closeNav">Danh sách học sinh</a>
+    <a href="/" @click="closeNav">Thêm học sinh</a>
+    <a href="/" @click="closeNav">Liên hệ</a>
   </div>
 </template>
 

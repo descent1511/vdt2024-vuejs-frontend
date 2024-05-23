@@ -2,15 +2,16 @@
   <div id="app">
     <AppNavbar :isSidebarOpen="sidebarOpen" @toggle-sidebar="toggleSidebar" />
     <AppSidebar :isOpen="sidebarOpen" @close-nav="closeSidebar" />
-    <div :class="['main-content', { 'main-expanded': sidebarOpen }]" id="main">
-      <!-- Nội dung chính ở đây -->
-    </div>
+    
+   
+    <router-view></router-view>
+    
   </div>
 </template>
 
 <script>
-import AppNavbar from './components/AppNavbar.vue'
-import AppSidebar from './components/AppSidebar.vue'
+import AppNavbar from './components/AppNavbar.vue';
+import AppSidebar from './components/AppSidebar.vue';
 
 export default {
   name: 'App',
@@ -21,7 +22,7 @@ export default {
   data() {
     return {
       sidebarOpen: false
-    }
+    };
   },
   methods: {
     toggleSidebar() {
@@ -31,7 +32,7 @@ export default {
       this.sidebarOpen = false;
     }
   }
-}
+};
 </script>
 
 <style>
@@ -43,34 +44,45 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f3f4ff;
   margin: 0;
   padding: 0;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
   transition: background-color 0.3s, color 0.3s;
 }
 
-#main {
+.main-content {
+  background-color: #f3f4ff;
   transition: margin-left 0.3s;
   padding: 16px;
   margin-left: 0;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px); 
+  overflow-y: auto;
+  margin-top: 50px; 
 }
+.dark-mode .main-content{
+  background-color: #343A40;
+  color: #e0e0e0;
+}
+
 
 .main-expanded {
   margin-left: 250px;
 }
 
-.dark-mode {
+/* .dark-mode {
   background-color: #121212;
   color: #e0e0e0;
-}
+} */
+
 </style>
