@@ -4,7 +4,7 @@
       <button class="openbtn" @click="toggleSidebar">
         <i class="bi bi-list" id="menuIcon"></i>
       </button>
-      <a class="navbar-brand ms-3" href="#">Logo</a>
+      <a class="navbar-brand ms-3" href="/">Logo</a>
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -13,6 +13,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Profile</a>
           </li>
+          <li class="nav-item">
+            <ThemeToggle />
+          </li>
         </ul>
       </div>
     </div>
@@ -20,8 +23,12 @@
 </template>
 
 <script>
+import ThemeToggle from './ThemeToggle.vue'
 export default {
   name: 'AppNavbar',
+  components: {
+    ThemeToggle
+  },
   props: {
     isSidebarOpen: {
       type: Boolean,
