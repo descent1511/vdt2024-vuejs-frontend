@@ -1,10 +1,10 @@
 import axios from 'axios';
-
+import { clientId } from '@/app.config'
 const instance = axios.create({
-  baseURL: "http://192.168.0.109:8000", 
+  baseURL: clientId, 
   headers: {
     'Content-Type': 'application/json',
   }
 });
-console.log(process.env.VUE_APP_API_URL )
+console.log(clientId)
 export default instance;
