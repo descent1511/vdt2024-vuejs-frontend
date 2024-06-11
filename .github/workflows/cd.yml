@@ -41,6 +41,9 @@ jobs:
           ref: main
           token: ${{ secrets.ACTION_GITHUB_TOKEN }}
 
+      - name: Pull latest changes
+        run: git pull origin main
+
       - name: Update values.yaml
         run: |
           sed -i 's/\(tag: \).*/\1"'"${{ github.ref_name }}"'"/' values.yaml
@@ -49,4 +52,3 @@ jobs:
           git add values.yaml
           git commit -m "Update web image version to ${{ github.ref_name }}"
           git push
-
