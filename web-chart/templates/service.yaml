@@ -8,9 +8,11 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: 80
       protocol: TCP
+      targetPort: 80
+      name: {{ .Values.service.portName }}
+      {{- if .Values.service.nodePort }}
       nodePort: {{ .Values.service.nodePort }}
-
+      {{- end }}
   selector:
     {{- include "web-chart.selectorLabels" . | nindent 4 }}
