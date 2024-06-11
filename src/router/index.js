@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+const clientId = process.env.VUE_APP_API_URL;
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -13,6 +14,14 @@ const router = createRouter({
       name: "profile",
       component: () => import("../views/ProfilePage.vue"),
       props: true,
+    },
+    {
+      path: '/metrics',
+      name: "metric",
+      beforeEnter() {
+        const metricsUrl = `${clientId}/metrics`;
+        window.location.href = metricsUrl;
+      }
     },
   ],
 });
