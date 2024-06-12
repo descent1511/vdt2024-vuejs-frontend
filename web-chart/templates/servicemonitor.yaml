@@ -13,9 +13,12 @@ spec:
     matchLabels:
       {{- include "web-chart.selectorLabels" . | nindent 6 }}
   endpoints:
-    - port: {{ .Values.service.portName }}
-      interval: {{ .Values.serviceMonitor.interval }}
+    - interval: {{ .Values.serviceMonitor.interval }}
       scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
+      path: /metrics/frontend
+      static_configs:
+        - targets:
+          - "192.168.0.106:30001"
 {{- end }}
 
 
