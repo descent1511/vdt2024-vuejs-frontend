@@ -10,7 +10,6 @@ function sendToAnalytics(metric) {
     route: currentRoute.fullPath, 
   };
   const body = JSON.stringify(enhancedMetric);
-  console.log(body);
   try {
     const response = axios.post(`${clientId}/push-frontend-metric`, body, {
       headers: {
